@@ -45,14 +45,9 @@ import getopt
 import traceback
 import hashlib
 
-try:
-    from Cryptodome.Cipher import AES
-    from Cryptodome.Util import Counter
-    from Cryptodome.Protocol.KDF import PBKDF2
-except ImportError:
-    from Crypto.Cipher import AES
-    from Crypto.Util import Counter
-    from Crypto.Protocol.KDF import PBKDF2
+from Crypto.Cipher import AES
+from Crypto.Util import Counter
+from Crypto.Protocol.KDF import PBKDF2
 
 try:
     RegError
@@ -66,7 +61,7 @@ except NameError:
 
 from .utilities import SafeUnbuffered
 from .argv_utils import unicode_argv
-    
+
 
 try:
     from calibre.constants import iswindows, isosx
@@ -246,7 +241,7 @@ if iswindows:
                     if buffer[i]>u"\u007f":
                         #print "swapping char "+str(i)+" ("+buffer[i]+")"
                         buffer[i] = u"\ufffd"
-                else: 
+                else:
                     if buffer[i]>"\u007f":
                         #print "swapping char "+str(i)+" ("+buffer[i]+")"
                         buffer[i] = "\ufffd"

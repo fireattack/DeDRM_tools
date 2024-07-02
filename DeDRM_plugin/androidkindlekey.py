@@ -34,10 +34,7 @@ from hashlib import md5
 from io import BytesIO
 from binascii import a2b_hex, b2a_hex
 
-try:
-    from Cryptodome.Cipher import AES, DES
-except ImportError:
-    from Crypto.Cipher import AES, DES
+from Crypto.Cipher import AES, DES
 
 # Routines common to Mac and PC
 

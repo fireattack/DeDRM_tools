@@ -33,12 +33,8 @@ from io import BytesIO
 #@@CALIBRE_COMPAT_CODE@@
 
 
-try:
-    from Cryptodome.Cipher import AES
-    from Cryptodome.Util.py3compat import bchr
-except ImportError:
-    from Crypto.Cipher import AES
-    from Crypto.Util.py3compat import bchr
+from Crypto.Cipher import AES
+from Crypto.Util.py3compat import bchr
 
 try:
     # lzma library from calibre 4.6.0 or later
@@ -1096,11 +1092,11 @@ def process_V9888(st):
     ws.sbox(d0x6a0bf4d0,d0x6a0dab50,[1,2])
     ws.sbox(d0x6a0ba4d0,d0x6a0dab50,[1,2])
     ws.shuffle(repl)
-    ws.shuffle(repl)    
+    ws.shuffle(repl)
     ws.shuffle(repl)
     ws.sbox(d0x6a0bf4d0,d0x6a0dab50,[1,2])
     ws.sbox(d0x6a0ba4d0,d0x6a0dab50,[1,2])
-    ws.exlookup(d0x6a0be4d0)    
+    ws.exlookup(d0x6a0be4d0)
     dat=ws.mask(st[sto:sto+16])
     out+=dat
     sto+=16
@@ -1124,7 +1120,7 @@ def process_V4648(st):
     ws.sbox(d0x6a0c51a8,d0x6a0dab50,[1,3])
     ws.shuffle(repl)
     ws.shuffle(repl)
-    ws.exlookup(d0x6a0c91a8)    
+    ws.exlookup(d0x6a0c91a8)
     dat=ws.mask(st[sto:sto+16])
     out+=dat
     sto+=16
@@ -1148,7 +1144,7 @@ def process_V5683(st):
     ws.shuffle(repl)
     ws.sbox(d0x6a0cfe80,d0x6a0dab50,[])
     ws.shuffle(repl)
-    ws.exlookup(d0x6a0d3e80)    
+    ws.exlookup(d0x6a0d3e80)
     dat=ws.mask(st[sto:sto+16])
     out+=dat
     sto+=16
@@ -1163,12 +1159,12 @@ def process_V5683(st):
 #     if a<0: a=256+a
 #     ax.append(ha[(a>>4)]+ha[a%16])
 #   return "".join(ax)
-# 
+#
 # def memhex(adr,sz):
 #   emu=EmulatorHelper(currentProgram)
 #   arr=emu.readMemory(getAddress(adr),sz)
 #   return a2hex(arr)
-# 
+#
 
 
 
@@ -1254,7 +1250,7 @@ def scramble3(st,magic):
             iVar5 = iVar5 - magic
             index -= 1
             if uVar4<=-1: break
-      else: 
+      else:
         if (offset < magic):
           iVar3 = 0
         else :
@@ -1274,9 +1270,9 @@ def scramble3(st,magic):
             index=index-1
             iVar5 = iVar5 + magic;
             cntr += 1;
-            if iVar3>=divs: break 
+            if iVar3>=divs: break
       offset = offset + 1
-      if offset >= ((magic - 1) + divs) :break 
+      if offset >= ((magic - 1) + divs) :break
   return ret
 
 #not sure if the third variant is used anywhere, but it is in Kindle, so I tried to add it
@@ -1342,12 +1338,12 @@ class DrmIonVoucher(object):
                 _assert(False, "Unknown lock parameter: %s" % param)
 
 
-        # i know that version maps to scramble pretty much 1 to 1, but there was precendent where they changed it, so... 
+        # i know that version maps to scramble pretty much 1 to 1, but there was precendent where they changed it, so...
         sharedsecrets = [obfuscate(shared, self.version),obfuscate2(shared, self.version),obfuscate3(shared, self.version),
                          process_V9708(shared), process_V1031(shared), process_V2069(shared), process_V9041(shared),
                          process_V3646(shared), process_V6052(shared), process_V9479(shared), process_V9888(shared),
                          process_V4648(shared), process_V5683(shared)]
-        
+
         decrypted=False
         ex=None
         for sharedsecret in sharedsecrets:
@@ -1361,7 +1357,7 @@ class DrmIonVoucher(object):
 
                 _assert(self.drmkey.hasnext() and self.drmkey.next() == TID_LIST and self.drmkey.gettypename() == "com.amazon.drm.KeySet@1.0",
                     "Expected KeySet, got %s" % self.drmkey.gettypename())
-                decrypted=True 
+                decrypted=True
 
                 print("Decryption succeeded")
                 break
