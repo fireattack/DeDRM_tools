@@ -63,18 +63,15 @@ __version__ = '6.0'
 #  6.0 - Added Python 3 compatibility for calibre 5.0
 
 
-import sys, os, re
 import csv
 import getopt
-import re
-import traceback
-import time
-try:
-    import html.entities as htmlentitydefs
-except:
-    import htmlentitydefs
-
+import html.entities as htmlentitydefs
 import json
+import os
+import re
+import sys
+import time
+import traceback
 
 #@@CALIBRE_COMPAT_CODE@@
 

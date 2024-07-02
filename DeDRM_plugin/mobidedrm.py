@@ -5,7 +5,6 @@
 # Copyright © 2008 The Dark Reverser
 # Portions © 2008–2020 Apprentice Harper et al.
 
-from __future__ import print_function
 __license__ = 'GPL v3'
 __version__ = "1.1"
 

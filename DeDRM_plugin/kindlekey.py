@@ -49,11 +49,6 @@ from Crypto.Cipher import AES
 from Crypto.Util import Counter
 from Crypto.Protocol.KDF import PBKDF2
 
-try:
-    RegError
-except NameError:
-    class RegError(Exception):
-        pass
 
 # Routines common to Mac and PC
 
@@ -148,10 +143,7 @@ if iswindows:
         create_unicode_buffer, create_string_buffer, CFUNCTYPE, addressof, \
         string_at, Structure, c_void_p, cast
 
-    try:
-        import winreg
-    except ImportError:
-        import _winreg as winreg
+    import winreg
 
     MAX_PATH = 255
     kernel32 = windll.kernel32
@@ -282,10 +274,7 @@ if iswindows:
         path = ""
         if 'LOCALAPPDATA' in os.environ.keys():
             # Python 2.x does not return unicode env. Use Python 3.x
-            if sys.version_info[0] == 2:
-                path = winreg.ExpandEnvironmentStrings(u"%LOCALAPPDATA%")
-            else:
-                path = winreg.ExpandEnvironmentStrings("%LOCALAPPDATA%")
+            path = winreg.ExpandEnvironmentStrings("%LOCALAPPDATA%")
             # this is just another alternative.
             # path = getEnvironmentVariable('LOCALAPPDATA')
             if not os.path.isdir(path):
@@ -303,9 +292,9 @@ if iswindows:
                         path = winreg.QueryValueEx(regkey, 'Local AppData')[0]
                         if not os.path.isdir(path):
                             path = ""
-                    except RegError:
+                    except OSError:
                         pass
-            except RegError:
+            except OSError:
                 pass
 
         found = False

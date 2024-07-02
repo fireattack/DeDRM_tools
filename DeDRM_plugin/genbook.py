@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 # vim:ts=4:sw=4:softtabstop=4:smarttab:expandtab
 # Python 3 for calibre 5.0
-from __future__ import print_function
 
 #@@CALIBRE_COMPAT_CODE@@
 
