@@ -41,10 +41,7 @@ def pidFromSerial(s, l):
 
     arr1 = [0]*l
     for i in range(len(s)):
-        if sys.version_info[0] == 2:
-            arr1[i%l] ^= ord(s[i])
-        else:
-            arr1[i%l] ^= s[i]
+        arr1[i%l] ^= s[i]
 
     crc_bytes = [crc >> 24 & 0xff, crc >> 16 & 0xff, crc >> 8 & 0xff, crc & 0xff]
     for i in range(l):

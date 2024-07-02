@@ -53,10 +53,7 @@ def SHA1(message):
 def encode(data, map):
     result = b''
     for char in data:
-        if sys.version_info[0] == 2:
-            value = ord(char)
-        else:
-            value = char
+        value = char
 
         Q = (value ^ 0x80) // len(map)
         R = value % len(map)
@@ -90,11 +87,8 @@ def decode(data,map):
 def getTwoBitsFromBitField(bitField,offset):
     byteNumber = offset // 4
     bitPosition = 6 - 2*(offset % 4)
-    if sys.version_info[0] == 2:
-        return ord(bitField[byteNumber]) >> bitPosition & 3
-    else:
-        return bitField[byteNumber] >> bitPosition & 3
-    
+    return bitField[byteNumber] >> bitPosition & 3
+
 # Returns the six bits at offset from a bit field
 def getSixBitsFromBitField(bitField,offset):
     offset *= 3
@@ -107,7 +101,7 @@ def encodePID(hash):
     PID = b''
     for position in range (0,8):
         PID += bytes(bytearray([charMap3[getSixBitsFromBitField(hash,position)]]))
-        
+
     return PID
 
 # Encryption table used to generate the device PID
@@ -171,10 +165,7 @@ def pidFromSerial(s, l):
     crc = crc32(s)
     arr1 = [0]*l
     for i in range(len(s)):
-        if sys.version_info[0] == 2:
-            arr1[i%l] ^= ord(s[i])
-        else: 
-            arr1[i%l] ^= s[i]
+        arr1[i%l] ^= s[i]
     crc_bytes = [crc >> 24 & 0xff, crc >> 16 & 0xff, crc >> 8 & 0xff, crc & 0xff]
     for i in range(l):
         arr1[i] ^= crc_bytes[i&3]
@@ -189,10 +180,6 @@ def pidFromSerial(s, l):
 def getKindlePids(rec209, token, serialnum):
     if isinstance(serialnum,str):
         serialnum = serialnum.encode('utf-8')
-
-    if sys.version_info[0] == 2:
-        if isinstance(serialnum,unicode):
-            serialnum = serialnum.encode('utf-8')
 
     if rec209 is None:
         return [serialnum]

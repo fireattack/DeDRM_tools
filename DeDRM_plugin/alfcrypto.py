@@ -26,10 +26,7 @@ class Pukall_Cipher(object):
             raise Exception("PC1: Bad key length")
         wkey = []
         for i in range(8):
-            if sys.version_info[0] == 2:
-                wkey.append(ord(key[i*2])<<8 | ord(key[i*2+1]))
-            else:
-                wkey.append(key[i*2]<<8 | key[i*2+1])
+            wkey.append(key[i*2]<<8 | key[i*2+1])
         dst = bytearray(len(src))
         for i in range(len(src)):
             temp1 = 0;
@@ -42,10 +39,7 @@ class Pukall_Cipher(object):
                 temp1 = (temp1*20021+1)&0xFFFF
                 byteXorVal ^= temp1 ^ sum2
 
-            if sys.version_info[0] == 2:
-                curByte = ord(src[i])
-            else:
-                curByte = src[i]
+            curByte = src[i]
 
             if not decryption:
                 keyXorVal = curByte * 257;
@@ -55,10 +49,7 @@ class Pukall_Cipher(object):
             for j in range(8):
                 wkey[j] ^= keyXorVal;
 
-            if sys.version_info[0] == 2:
-                dst[i] = chr(curByte)
-            else:
-                dst[i] = curByte
+            dst[i] = curByte
 
         return bytes(dst)
 

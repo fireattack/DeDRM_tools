@@ -197,8 +197,6 @@ def decryptBook(infile, outdir, kDatabaseFiles, androidFiles, serials, pids):
             print("Error getting database from file {0:s}: {1:s}".format(dbfile,e))
             traceback.print_exc()
 
-
-
     try:
         book = GetDecryptedBook(infile, kDatabases, androidFiles, serials, pids, starttime)
     except Exception as e:
