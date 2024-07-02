@@ -33,7 +33,7 @@ from .argv_utils import unicode_argv
 #global switch
 debug = False
 
-import kgenpids
+from . import kgenpids
 
 
 class DrmException(Exception):

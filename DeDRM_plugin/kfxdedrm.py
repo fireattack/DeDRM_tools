@@ -19,7 +19,7 @@ from io import BytesIO
 #@@CALIBRE_COMPAT_CODE@@
 
 
-from ion import DrmIon, DrmIonVoucher
+from .ion import DrmIon, DrmIonVoucher
 
 
 

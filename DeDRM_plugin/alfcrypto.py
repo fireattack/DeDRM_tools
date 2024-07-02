@@ -12,7 +12,7 @@ import sys
 import hmac
 from struct import pack
 import hashlib
-import aescbc
+from . import aescbc
 
 class Pukall_Cipher(object):
     def __init__(self):
@@ -28,7 +28,7 @@ class Pukall_Cipher(object):
         for i in range(8):
             if sys.version_info[0] == 2:
                 wkey.append(ord(key[i*2])<<8 | ord(key[i*2+1]))
-            else: 
+            else:
                 wkey.append(key[i*2]<<8 | key[i*2+1])
         dst = bytearray(len(src))
         for i in range(len(src)):
@@ -54,12 +54,12 @@ class Pukall_Cipher(object):
                 keyXorVal = curByte * 257;
             for j in range(8):
                 wkey[j] ^= keyXorVal;
-            
+
             if sys.version_info[0] == 2:
                 dst[i] = chr(curByte)
-            else: 
+            else:
                 dst[i] = curByte
-                
+
         return bytes(dst)
 
 class Topaz_Cipher(object):
