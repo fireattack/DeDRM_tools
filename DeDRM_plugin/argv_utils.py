@@ -6,10 +6,7 @@ import sys
 # get sys.argv arguments and encode them into utf-8
 def unicode_argv(default_name):
 
-    try:
-        from calibre.constants import iswindows
-    except:
-        iswindows = sys.platform.startswith('win')
+    iswindows = sys.platform.startswith('win')
 
     if iswindows:
         # Uses shell32.GetCommandLineArgvW to get sys.argv as a list of Unicode

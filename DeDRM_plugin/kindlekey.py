@@ -63,11 +63,8 @@ from .utilities import SafeUnbuffered
 from .argv_utils import unicode_argv
 
 
-try:
-    from calibre.constants import iswindows, isosx
-except:
-    iswindows = sys.platform.startswith('win')
-    isosx = sys.platform.startswith('darwin')
+iswindows = sys.platform.startswith('win')
+isosx = sys.platform.startswith('darwin')
 
 
 
