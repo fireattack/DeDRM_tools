@@ -7,3 +7,5 @@
 # Cache
 /DeDRM_plugin/__pycache__
 /DeDRM_plugin/standalone/__pycache__
+
+/tests
