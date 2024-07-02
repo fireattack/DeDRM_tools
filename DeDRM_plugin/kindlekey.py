@@ -59,10 +59,6 @@ except NameError:
 
 #@@CALIBRE_COMPAT_CODE@@
 
-from .utilities import SafeUnbuffered
-from .argv_utils import unicode_argv
-
-
 iswindows = sys.platform.startswith('win')
 isosx = sys.platform.startswith('darwin')
 
@@ -941,9 +937,7 @@ def usage(progname):
 
 
 def cli_main():
-    sys.stdout=SafeUnbuffered(sys.stdout)
-    sys.stderr=SafeUnbuffered(sys.stderr)
-    argv=unicode_argv("kindlekey.py")
+    argv=sys.argv
     progname = os.path.basename(argv[0])
     print("{0} v{1}\nCopyright © 2010-2020 by some_updates, Apprentice Harper et al.".format(progname,__version__))
 
@@ -1004,7 +998,7 @@ def gui_main():
             self.text.insert(tkinter.constants.END, text)
 
 
-    argv=unicode_argv("kindlekey.py")
+    argv=sys.argv
     root = tkinter.Tk()
     root.withdraw()
     progpath, progname = os.path.split(argv[0])

@@ -88,10 +88,6 @@ from . import kgenpids
 from . import androidkindlekey
 from . import kfxdedrm
 
-from .utilities import SafeUnbuffered
-
-from .argv_utils import unicode_argv
-
 
 # cleanup unicode filenames
 # borrowed from calibre from calibre/src/calibre/__init__.py
@@ -253,7 +249,7 @@ def usage(progname):
 # Main
 #
 def cli_main():
-    argv=unicode_argv("k4mobidedrm.py")
+    argv=sys.argv
     progname = os.path.basename(argv[0])
     print("K4MobiDeDrm v{0}.\nCopyright © 2008-2020 Apprentice Harper et al.".format(__version__))
 
@@ -299,6 +295,4 @@ def cli_main():
 
 
 if __name__ == '__main__':
-    sys.stdout=SafeUnbuffered(sys.stdout)
-    sys.stderr=SafeUnbuffered(sys.stderr)
     sys.exit(cli_main())

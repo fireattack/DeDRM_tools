@@ -6,8 +6,6 @@ from __future__ import print_function
 
 #@@CALIBRE_COMPAT_CODE@@
 
-from .utilities import SafeUnbuffered
-
 import sys
 import csv
 import os
@@ -672,8 +670,6 @@ def usage():
 
 
 def main(argv):
-    sys.stdout=SafeUnbuffered(sys.stdout)
-    sys.stderr=SafeUnbuffered(sys.stderr)
     bookDir = ''
     if len(argv) == 0:
         argv = sys.argv

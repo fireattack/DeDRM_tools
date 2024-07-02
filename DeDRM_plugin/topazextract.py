@@ -25,9 +25,6 @@ from struct import pack
 from struct import unpack
 
 from .alfcrypto import Topaz_Cipher
-from .utilities import SafeUnbuffered
-
-from .argv_utils import unicode_argv
 
 
 #global switch
@@ -401,7 +398,7 @@ def usage(progname):
 
 # Main
 def cli_main():
-    argv=unicode_argv("topazextract.py")
+    argv=sys.argv
     progname = os.path.basename(argv[0])
     print("TopazExtract v{0}.".format(__version__))
 
@@ -487,6 +484,4 @@ def cli_main():
 
 
 if __name__ == '__main__':
-    sys.stdout=SafeUnbuffered(sys.stdout)
-    sys.stderr=SafeUnbuffered(sys.stderr)
     sys.exit(cli_main())

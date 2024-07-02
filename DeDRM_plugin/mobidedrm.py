@@ -86,8 +86,6 @@ import binascii
 
 
 from .alfcrypto import Pukall_Cipher
-from .utilities import SafeUnbuffered
-from .argv_utils import unicode_argv
 
 
 class DrmException(Exception):
@@ -103,7 +101,7 @@ def PC1(key, src, decryption=True):
     # if we can get it from alfcrypto, use that
     try:
         return Pukall_Cipher().PC1(key,src,decryption)
-    except: 
+    except:
         raise
 
 letters = b'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789'
@@ -156,7 +154,7 @@ def getSizeOfTrailingDataEntries(ptr, size, flags):
     if flags & 1:
         if sys.version_info[0] == 2:
             num += (ord(ptr[size - num - 1]) & 0x3) + 1
-        else: 
+        else:
             num += (ptr[size - num - 1] & 0x3) + 1
     return num
 
@@ -339,7 +337,7 @@ class MobiBook:
                 temp_key_sum = sum(map(ord,temp_key)) & 0xff
             else:
                 temp_key_sum = sum(temp_key) & 0xff
-            
+
             for i in range(count):
                 verification, size, type, cksum, cookie = struct.unpack('>LLLBxxx32s', data[i*0x30:i*0x30+0x30])
                 if cksum == temp_key_sum:
@@ -468,7 +466,7 @@ def getUnencryptedBook(infile,pidlist):
 
 
 def cli_main():
-    argv=unicode_argv("mobidedrm.py")
+    argv=sys.argv
     progname = os.path.basename(argv[0])
     if len(argv)<3 or len(argv)>4:
         print("MobiDeDrm v{0:s}.\nCopyright © 2008-2020 The Dark Reverser, Apprentice Harper et al.".format(__version__))
@@ -493,6 +491,4 @@ def cli_main():
 
 
 if __name__ == '__main__':
-    sys.stdout=SafeUnbuffered(sys.stdout)
-    sys.stderr=SafeUnbuffered(sys.stderr)
     sys.exit(cli_main())
