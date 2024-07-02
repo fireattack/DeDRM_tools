@@ -24,6 +24,7 @@ Decrypt Kindle KFX files.
 import collections
 import hashlib
 import hmac
+import lzma
 import os
 import os.path
 import struct
@@ -36,25 +37,6 @@ from io import BytesIO
 from Crypto.Cipher import AES
 from Crypto.Util.py3compat import bchr
 
-try:
-    # lzma library from calibre 4.6.0 or later
-    import calibre_lzma.lzma1 as calibre_lzma
-except ImportError:
-    calibre_lzma = None
-    # lzma library from calibre 2.35.0 or later
-    try:
-        import lzma.lzma1 as calibre_lzma
-    except ImportError:
-        calibre_lzma = None
-        try:
-            import lzma
-        except ImportError:
-            # Need pip backports.lzma on Python <3.3
-            try:
-                from backports import lzma
-            except ImportError:
-                # Windows-friendly choice: pylzma wheels
-                import pylzma as lzma
 
 from .kfxtables import *
 
@@ -1573,12 +1555,6 @@ class DrmIon(object):
             return
 
         _assert(msg[0] == 0, "LZMA UseFilter not supported")
-
-        if calibre_lzma is not None:
-            with calibre_lzma.decompress(msg[1:], bufsize=0x1000000) as f:
-                f.seek(0)
-                outpages.write(f.read())
-            return
 
         decomp = lzma.LZMADecompressor(format=lzma.FORMAT_ALONE)
         while not decomp.eof:
