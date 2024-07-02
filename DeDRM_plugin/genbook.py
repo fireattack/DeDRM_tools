@@ -20,10 +20,10 @@ class TpzDRMError(Exception):
     pass
 
 # local support routines
-import convert2xml
-import flatxml2html
-import flatxml2svg
-import stylexml2css
+from . import convert2xml
+from . import flatxml2html
+from . import flatxml2svg
+from . import stylexml2css
 
 # global switch
 buildXML = False
@@ -56,7 +56,7 @@ def readEncodedNumber(file):
 
 # Get a length prefixed string from the file
 def lengthPrefixString(data):
-    return encodeNumber(len(data))+data
+    return convert2xml.encodeNumber(len(data))+data
 
 def readString(file):
     stringLength = readEncodedNumber(file)

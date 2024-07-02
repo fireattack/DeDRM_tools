@@ -277,7 +277,7 @@ class TopazBook:
             self.createBookDirectory()
             self.extractFiles()
             print("Successfully Extracted Topaz contents")
-            import genbook
+            from . import genbook
 
             rv = genbook.generateBook(self.outdir, raw, fixedimage)
             if rv == 0:
@@ -310,7 +310,7 @@ class TopazBook:
         self.createBookDirectory()
         self.extractFiles()
         print("Successfully Extracted Topaz contents")
-        import genbook
+        from . import genbook
 
         rv = genbook.generateBook(self.outdir, raw, fixedimage)
         if rv == 0:
