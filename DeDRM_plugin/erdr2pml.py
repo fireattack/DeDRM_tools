@@ -93,19 +93,17 @@ if "calibre" in sys.modules and sys.version_info[0] == 2:
     if os.path.join(config_dir, "plugins", "DeDRM.zip") not in sys.path:
         sys.path.insert(0, os.path.join(config_dir, "plugins", "DeDRM.zip"))
 
-if "calibre" in sys.modules:
-    # Explicitly set the package identifier so we are allowed to import stuff ...
-    __package__ = "calibre_plugins.dedrm"
+# Explicitly set the package identifier so we are allowed to import stuff ...
+#__package__ = "DeDRM_plugin"
 
 #@@CALIBRE_COMPAT_CODE_END@@
 
-from .utilities import SafeUnbuffered
-from .argv_utils import unicode_argv
+from utilities import SafeUnbuffered
 
 iswindows = sys.platform.startswith('win')
 isosx = sys.platform.startswith('darwin')
 
-
+from argv_utils import unicode_argv
 
 import cgi
 import logging
@@ -162,20 +160,14 @@ def sanitizeFileName(name):
 
 def fixKey(key):
     def fixByte(b):
-        if sys.version_info[0] == 2:
-            b = ord(b)
-
         return b ^ ((b ^ (b<<1) ^ (b<<2) ^ (b<<3) ^ (b<<4) ^ (b<<5) ^ (b<<6) ^ (b<<7) ^ 0x80) & 0x80)
-    return bytes(bytearray([fixByte(a) for a in key]))
+    return bytes([fixByte(a) for a in key])
 
 def deXOR(text, sp, table):
-    r=b''
+    r=''
     j = sp
     for i in range(len(text)):
-        if sys.version_info[0] == 2:
-            r += chr(ord(table[j]) ^ ord(text[i]))
-        else: 
-            r += bytes(bytearray([table[j] ^ text[i]]))
+        r += chr(ord(table[j]) ^ ord(text[i]))
         j = j + 1
         if j == len(table):
             j = 0

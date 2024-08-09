@@ -33,9 +33,8 @@ if "calibre" in sys.modules and sys.version_info[0] == 2:
     if os.path.join(config_dir, "plugins", "DeDRM.zip") not in sys.path:
         sys.path.insert(0, os.path.join(config_dir, "plugins", "DeDRM.zip"))
 
-if "calibre" in sys.modules:
-    # Explicitly set the package identifier so we are allowed to import stuff ...
-    __package__ = "calibre_plugins.dedrm"
+# Explicitly set the package identifier so we are allowed to import stuff ...
+#__package__ = "DeDRM_plugin"
 
 #@@CALIBRE_COMPAT_CODE_END@@
 
@@ -49,7 +48,7 @@ from calibre.constants import iswindows, isosx
 
 from __init__ import PLUGIN_NAME, PLUGIN_VERSION
 from __version import RESOURCE_NAME as help_file_name
-from .utilities import uStrCmp
+from utilities import uStrCmp
 
 import prefs
 import androidkindlekey

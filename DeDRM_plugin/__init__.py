@@ -109,17 +109,13 @@ if "calibre" in sys.modules and sys.version_info[0] == 2:
     if os.path.join(config_dir, "plugins", "DeDRM.zip") not in sys.path:
         sys.path.insert(0, os.path.join(config_dir, "plugins", "DeDRM.zip"))
 
-if "calibre" in sys.modules:
-    # Explicitly set the package identifier so we are allowed to import stuff ...
-    __package__ = "calibre_plugins.dedrm"
+# Explicitly set the package identifier so we are allowed to import stuff ...
+#__package__ = "DeDRM_plugin"
 
 #@@CALIBRE_COMPAT_CODE_END@@
 
 try: 
-    try: 
-        from . import __version
-    except:
-        import __version
+    import __version
 except: 
     print("#############################")
     print("Failed to load the DeDRM plugin")
@@ -157,10 +153,8 @@ try:
 except:
     config_dir = ""
 
-try: 
-    from . import utilities
-except: 
-    import utilities
+
+import utilities
 
 
 PLUGIN_NAME = __version.PLUGIN_NAME
@@ -940,9 +934,6 @@ class DeDRM(FileTypePlugin):
             # perhaps we need to get a new default Kindle for Mac/PC key
             defaultkeys = []
             print("{0} v{1}: Failed to decrypt with error: {2}".format(PLUGIN_NAME, PLUGIN_VERSION,e.args[0]))
-
-            traceback.print_exc()
-
             print("{0} v{1}: Looking for new default Kindle Key after {2:.1f} seconds".format(PLUGIN_NAME, PLUGIN_VERSION, time.time()-self.starttime))
 
             try:

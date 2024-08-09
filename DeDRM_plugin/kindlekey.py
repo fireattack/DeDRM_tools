@@ -62,31 +62,7 @@ except NameError:
 
 # Routines common to Mac and PC
 
-
-#@@CALIBRE_COMPAT_CODE_START@@
-import sys, os
-
-# Explicitly allow importing everything ...
-if os.path.dirname(os.path.dirname(os.path.abspath(__file__))) not in sys.path:
-    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-if os.path.dirname(os.path.abspath(__file__)) not in sys.path:
-    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-
-# Bugfix for Calibre < 5:
-if "calibre" in sys.modules and sys.version_info[0] == 2:
-    from calibre.utils.config import config_dir
-    if os.path.join(config_dir, "plugins", "DeDRM.zip") not in sys.path:
-        sys.path.insert(0, os.path.join(config_dir, "plugins", "DeDRM.zip"))
-
-if "calibre" in sys.modules:
-    # Explicitly set the package identifier so we are allowed to import stuff ...
-    __package__ = "calibre_plugins.dedrm"
-
-#@@CALIBRE_COMPAT_CODE_END@@
-
-from .utilities import SafeUnbuffered
-from .argv_utils import unicode_argv
-    
+from utilities import SafeUnbuffered
 
 try:
     from calibre.constants import iswindows, isosx
@@ -94,7 +70,7 @@ except:
     iswindows = sys.platform.startswith('win')
     isosx = sys.platform.startswith('darwin')
 
-
+from argv_utils import unicode_argv
 
 class DrmException(Exception):
     pass
@@ -139,17 +115,11 @@ def primes(n):
 def encode(data, map):
     result = b''
     for char in data:
-        if sys.version_info[0] == 2:
-            value = ord(char)
-        else:
-            value = char
-
+        value = char
         Q = (value ^ 0x80) // len(map)
         R = value % len(map)
-
-        result += bytes(bytearray([map[Q]]))
-        result += bytes(bytearray([map[R]]))
-
+        result += bytes([map[Q]])
+        result += bytes([map[R]])
     return result
 
 # Hash the bytes in data and then encode the digest with the characters in map
@@ -262,14 +232,9 @@ if iswindows:
 
             # replace any non-ASCII values with 0xfffd
             for i in range(0,len(buffer)):
-                if sys.version_info[0] == 2:
-                    if buffer[i]>u"\u007f":
-                        #print "swapping char "+str(i)+" ("+buffer[i]+")"
-                        buffer[i] = u"\ufffd"
-                else: 
-                    if buffer[i]>"\u007f":
-                        #print "swapping char "+str(i)+" ("+buffer[i]+")"
-                        buffer[i] = "\ufffd"
+                if buffer[i]>"\u007f":
+                    #print "swapping char "+str(i)+" ("+buffer[i]+")"
+                    buffer[i] = "\ufffd"
             # return utf-8 encoding of modified username
             #print "modified username:"+buffer.value
             return buffer.value.encode('utf-8')

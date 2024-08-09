@@ -16,45 +16,24 @@
 import sys
 import binascii
 
+from utilities import SafeUnbuffered
 
-#@@CALIBRE_COMPAT_CODE_START@@
-import sys, os
+from argv_utils import unicode_argv
 
-# Explicitly allow importing everything ...
-if os.path.dirname(os.path.dirname(os.path.abspath(__file__))) not in sys.path:
-    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-if os.path.dirname(os.path.abspath(__file__)) not in sys.path:
-    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-
-# Bugfix for Calibre < 5:
-if "calibre" in sys.modules and sys.version_info[0] == 2:
-    from calibre.utils.config import config_dir
-    if os.path.join(config_dir, "plugins", "DeDRM.zip") not in sys.path:
-        sys.path.insert(0, os.path.join(config_dir, "plugins", "DeDRM.zip"))
-
-if "calibre" in sys.modules:
-    # Explicitly set the package identifier so we are allowed to import stuff ...
-    __package__ = "calibre_plugins.dedrm"
-
-#@@CALIBRE_COMPAT_CODE_END@@
-
-from .utilities import SafeUnbuffered
-from .argv_utils import unicode_argv
-
-letters = b'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789'
+letters = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789'
 
 def crc32(s):
     return (~binascii.crc32(s,-1))&0xFFFFFFFF
 
 def checksumPid(s):
-    crc = crc32(s)
+    crc = crc32(s.encode('ascii'))
     crc = crc ^ (crc >> 16)
     res = s
     l = len(letters)
     for i in (0,1):
         b = crc & 0xff
         pos = (b // l) ^ (b % l)
-        res += bytes(bytearray([letters[pos%l]]))
+        res += letters[pos%l]
         crc >>= 8
 
     return res
@@ -64,19 +43,16 @@ def pidFromSerial(s, l):
 
     arr1 = [0]*l
     for i in range(len(s)):
-        if sys.version_info[0] == 2:
-            arr1[i%l] ^= ord(s[i])
-        else: 
-            arr1[i%l] ^= s[i]
+        arr1[i%l] ^= s[i]
 
     crc_bytes = [crc >> 24 & 0xff, crc >> 16 & 0xff, crc >> 8 & 0xff, crc & 0xff]
     for i in range(l):
         arr1[i] ^= crc_bytes[i&3]
 
-    pid = b""
+    pid = ''
     for i in range(l):
         b = arr1[i] & 0xff
-        pid+=bytes(bytearray([letters[(b >> 7) + ((b >> 5 & 3) ^ (b & 0x1f))]]))
+        pid+=letters[(b >> 7) + ((b >> 5 & 3) ^ (b & 0x1f))]
 
     return pid
 

@@ -8,7 +8,6 @@
 # pbkdf2.py Copyright © 2009 Daniel Holth <dholth@fastmail.fm>
 # pbkdf2.py This code may be freely used and modified for any purpose.
 
-import sys
 import hmac
 from struct import pack
 import hashlib
@@ -26,10 +25,7 @@ class Pukall_Cipher(object):
             raise Exception("PC1: Bad key length")
         wkey = []
         for i in range(8):
-            if sys.version_info[0] == 2:
-                wkey.append(ord(key[i*2])<<8 | ord(key[i*2+1]))
-            else: 
-                wkey.append(key[i*2]<<8 | key[i*2+1])
+            wkey.append(key[i*2]<<8 | key[i*2+1])
         dst = bytearray(len(src))
         for i in range(len(src)):
             temp1 = 0;
@@ -41,12 +37,7 @@ class Pukall_Cipher(object):
                 sum2  = (sum2+sum1)&0xFFFF
                 temp1 = (temp1*20021+1)&0xFFFF
                 byteXorVal ^= temp1 ^ sum2
-
-            if sys.version_info[0] == 2:
-                curByte = ord(src[i])
-            else:
-                curByte = src[i]
-
+            curByte = src[i]
             if not decryption:
                 keyXorVal = curByte * 257;
             curByte = ((curByte ^ (byteXorVal >> 8)) ^ byteXorVal) & 0xFF
@@ -54,12 +45,7 @@ class Pukall_Cipher(object):
                 keyXorVal = curByte * 257;
             for j in range(8):
                 wkey[j] ^= keyXorVal;
-            
-            if sys.version_info[0] == 2:
-                dst[i] = chr(curByte)
-            else: 
-                dst[i] = curByte
-                
+            dst[i] = curByte
         return bytes(dst)
 
 class Topaz_Cipher(object):
@@ -117,7 +103,7 @@ class KeyIVGen(object):
         def xorbytes( a, b ):
             if len(a) != len(b):
                 raise Exception("xorbytes(): lengths differ")
-            return bytes(bytearray([x ^ y for x, y in zip(a, b)]))
+            return bytes([x ^ y for x, y in zip(a, b)])
 
         def prf( h, data ):
             hm = h.copy()

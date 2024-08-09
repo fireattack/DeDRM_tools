@@ -201,9 +201,6 @@ def get_serials2(path=STORAGE2):
         for y in tokens:
             serials.append(y)
             serials.append(x+y)
-
-    connection.close()
-
     return serials
 
 def get_serials(path=STORAGE):
