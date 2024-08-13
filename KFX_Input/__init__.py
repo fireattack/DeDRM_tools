@@ -1,5 +1,8 @@
 import argparse
 import os
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 __license__ = "GPL v3"
 __copyright__ = "2017-2024, John Howell <jhowell@acm.org>"
@@ -9,8 +12,7 @@ file_types = {"azw8", "kfx", "kfx-zip", "kpf"}
 def cli_main(argv):
     from .kfxlib import (file_write_binary, set_logger, YJ_Book)
 
-    log = JobLog()
-    log.info("")
+    log = logging.getLogger("kfxlib")
 
     allowed_exts = [".%s" % e for e in sorted(list(file_types))]
     ext_choices = ", ".join(allowed_exts[:-1] + ["or " + allowed_exts[-1]])
@@ -44,7 +46,6 @@ def cli_main(argv):
 
     log.info("Processing %s" % args.infile)
 
-    set_logger(log)
     book = YJ_Book(args.infile)
     book.decode_book(retain_yj_locals=True)
 
@@ -115,38 +116,3 @@ def name_of_file(file):
         return file.name
 
     return "unknown"
-
-
-class JobLog(object):
-    '''
-    Logger that also collects errors and warnings for presentation in a job summary.
-    '''
-
-    def __init__(self, logger):
-        self.logger = logger
-        self.errors = []
-        self.warnings = []
-
-    def debug(self, msg):
-        self.logger.debug(msg)
-
-    def info(self, msg):
-        self.logger.info(msg)
-
-    def warn(self, msg):
-        self.warnings.append(msg)
-        self.logger.warn("WARNING: %s" % msg)
-
-    def warning(self, desc):
-        self.warn(desc)
-
-    def error(self, msg):
-        self.errors.append(msg)
-        self.logger.error("ERROR: %s" % msg)
-
-    def exception(self, msg):
-        self.errors.append("EXCEPTION: %s" % msg)
-        self.logger.exception("EXCEPTION: %s" % msg)
-
-    def __call__(self, *args):
-        self.info(" ".join([str(arg) for arg in args]))

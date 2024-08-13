@@ -15,3 +15,15 @@
 /.vscode
 /new
 /KFX
+
+# ignore python temp files
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+*.pywz
+*.pyc
+
+# ignore python cache files
+__pycache__/

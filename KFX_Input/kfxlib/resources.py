@@ -12,12 +12,7 @@ from .utilities import (
     add_plugin_path, calibre_numeric_version, create_temp_dir, disable_debug_log, natural_sort_key,
     remove_plugin_path, temp_filename)
 
-if calibre_numeric_version is not None:
-    add_plugin_path()
-    import pypdf
-    remove_plugin_path()
-else:
-    import pypdf
+import pypdf
 
 
 __license__ = "GPL v3"
