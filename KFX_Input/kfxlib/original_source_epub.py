@@ -1,5 +1,3 @@
-from __future__ import (unicode_literals, division, absolute_import, print_function)
-
 from .resources import font_file_ext
 from .utilities import (
         dirname, get_url_filename, locale_decode, natural_sort_key,

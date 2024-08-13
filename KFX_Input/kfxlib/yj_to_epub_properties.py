@@ -1,8 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf8 -*-
 
-from __future__ import (unicode_literals, division, absolute_import, print_function)
-
 import collections
 import decimal
 import functools

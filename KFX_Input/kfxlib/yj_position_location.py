@@ -1,5 +1,3 @@
-from __future__ import (unicode_literals, division, absolute_import, print_function)
-
 import collections
 
 from .ion import (ion_type, IonAnnotation, IonInt, IonList, IonSExp, IonString, IonStruct, IonSymbol, IS, unannotated)

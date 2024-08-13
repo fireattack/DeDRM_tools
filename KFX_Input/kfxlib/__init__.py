@@ -1,7 +1,5 @@
 #! /usr/bin/python3
 
-from __future__ import (unicode_literals, division, absolute_import, print_function)
-
 from . import message_logging
 from . import utilities
 from . import yj_book

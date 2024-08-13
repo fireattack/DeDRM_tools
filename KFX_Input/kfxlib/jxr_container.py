@@ -1,5 +1,3 @@
-from __future__ import (unicode_literals, division, absolute_import, print_function)
-
 import uuid
 
 from .jxr_image import JXRImage
