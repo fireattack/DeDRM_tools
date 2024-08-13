@@ -10,11 +10,6 @@ import re
 import uuid
 import zipfile
 
-try:
-    from calibre.utils.resources import get_path
-except ImportError:
-    get_path = None
-
 from .message_logging import log
 from .resources import (EPUB2_ALT_MIMETYPES, MIMETYPE_OF_EXT)
 from .utilities import (make_unique_name, urlrelpath)
@@ -570,10 +565,7 @@ class EPUB_Output(object):
         draw = ImageDraw.Draw(img)
 
         try:
-            if get_path is not None:
-                font = ImageFont.truetype(get_path("fonts/liberation/LiberationSans-Bold.ttf"), 20)
-            else:
-                font = ImageFont.truetype("arial.ttf", 20)
+            font = ImageFont.truetype("arial.ttf", 20)
         except Exception:
             font = ImageFont.load_default()
 

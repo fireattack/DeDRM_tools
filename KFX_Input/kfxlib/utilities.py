@@ -26,12 +26,6 @@ import zipfile
 
 from .message_logging import log
 
-try:
-    from calibre.constants import numeric_version as calibre_numeric_version
-except ImportError:
-    calibre_numeric_version = None
-
-
 __license__ = "GPL v3"
 __copyright__ = "2016-2024, John Howell <jhowell@acm.org>"
 
@@ -646,25 +640,6 @@ def sha1(data):
 
 def sha256(data):
     return hashlib.sha256(data).digest()
-
-
-def plugin_modules_path():
-    if __file__ == "<calibre Plugin Loader>":
-        return sys.path[0] + "/kfxlib/calibre-plugin-modules"
-
-    return __file__.rpartition("/")[0] + "/calibre-plugin-modules"
-
-
-def add_plugin_path():
-    sys.path.insert(0, plugin_modules_path())
-
-
-def remove_plugin_path():
-    try:
-        sys.path.remove(plugin_modules_path())
-    except ValueError:
-        pass
-
 
 ENABLE_WIDE_UNICODE_HANDLING = True
 

@@ -8,9 +8,7 @@ import time
 
 from .jxr_container import JXRContainer
 from .message_logging import log
-from .utilities import (
-    add_plugin_path, calibre_numeric_version, create_temp_dir, disable_debug_log, natural_sort_key,
-    remove_plugin_path, temp_filename)
+from .utilities import (create_temp_dir, disable_debug_log, natural_sort_key, temp_filename)
 
 import pypdf
 
@@ -280,21 +278,6 @@ def convert_jxr_to_jpeg_or_png(jxr_data, resource_name, return_mime=False):
 
 
 def convert_jxr_to_tiff(jxr_data, resource_name):
-
-    if calibre_numeric_version is not None:
-
-        try:
-            from calibre.utils.img import (load_jxr_data, image_to_data)
-            img = load_jxr_data(jxr_data)
-            tiff_data = image_to_data(img, fmt="TIFF")
-
-            if tiff_data:
-                return tiff_data
-        except Exception as e:
-            log.warning("Conversion of JPEG-XR resource failed: %s" % repr(e))
-
-        log.info("Using fallback JPEG-XR conversion for %s" % resource_name)
-
     start_time = time.time()
 
     im = JXRContainer(jxr_data).unpack_image()
@@ -315,14 +298,6 @@ def convert_jxr_to_tiff(jxr_data, resource_name):
 def convert_pdf_to_jpeg(pdf_data, page_num, dpi=150, reported_errors=None):
     pdf_file = temp_filename("pdf", pdf_data)
     jpeg_dir = create_temp_dir()
-
-    if calibre_numeric_version is not None:
-
-        if dpi != 150:
-            raise Exception("calibre PDF page_images supports only default 150dpi")
-
-        from calibre.ebooks.metadata.pdf import page_images
-        page_images(pdf_file, jpeg_dir, first=page_num, last=page_num)
 
     for dirpath, dirnames, filenames in os.walk(jpeg_dir):
         if len(filenames) != 1:

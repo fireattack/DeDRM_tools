@@ -15,10 +15,7 @@ import traceback
 import urllib.parse
 from zipfile import (ZipFile, ZipInfo, ZIP_DEFLATED, ZIP_STORED)
 
-try:
-    import calibre.utils.soupparser as soupparser
-except ImportError:
-    import lxml.html.soupparser as soupparser
+import lxml.html.soupparser as soupparser
 
 from .message_logging import log
 from .utilities import sha1
