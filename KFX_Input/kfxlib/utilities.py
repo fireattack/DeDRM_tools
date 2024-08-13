@@ -50,13 +50,7 @@ tempdir_ = None
 atexit_set_ = False
 ALPHA_NUMERIC = string.ascii_lowercase + string.digits
 
-
-try:
-    from calibre.ptempfile import PersistentTemporaryDirectory
-    calibre_temp = True
-except ImportError:
-    import tempfile
-    calibre_temp = False
+import tempfile
 
 
 def tempdir():
@@ -67,14 +61,11 @@ def tempdir():
         raise Exception("Temporary directory is missing: %s" % tempdir_)
 
     if tempdir_ is None:
-        if calibre_temp:
-            tempdir_ = PersistentTemporaryDirectory()
-        else:
-            tempdir_ = tempfile.mkdtemp()
+        tempdir_ = tempfile.mkdtemp()
 
-            if not atexit_set_:
-                atexit.register(temp_file_cleanup)
-                atexit_set_ = True
+        if not atexit_set_:
+            atexit.register(temp_file_cleanup)
+            atexit_set_ = True
 
     return tempdir_
 
@@ -82,7 +73,7 @@ def tempdir():
 def temp_file_cleanup():
     global tempdir_
 
-    if tempdir_ is not None and not calibre_temp:
+    if tempdir_ is not None:
         tries = 0
         while (tempdir_ and tries < MAX_TEMPDIR_REMOVAL_TRIES):
             if tries > 0:
