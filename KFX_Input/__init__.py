@@ -2,7 +2,6 @@ import argparse
 import os
 import logging
 
-logging.basicConfig(level=logging.DEBUG)
 
 __license__ = "GPL v3"
 __copyright__ = "2017-2024, John Howell <jhowell@acm.org>"
@@ -11,8 +10,10 @@ file_types = {"azw8", "kfx", "kfx-zip", "kpf"}
 
 def cli_main(argv):
     from .kfxlib import (file_write_binary, set_logger, YJ_Book)
+    from .kfxlib.message_logging import log
 
-    log = logging.getLogger("kfxlib")
+    logging.basicConfig(level=logging.DEBUG)
+    set_logger(logging.getLogger("KFX"))
 
     allowed_exts = [".%s" % e for e in sorted(list(file_types))]
     ext_choices = ", ".join(allowed_exts[:-1] + ["or " + allowed_exts[-1]])
