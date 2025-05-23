@@ -5,5 +5,10 @@
 /user_data/
 
 # Cache
-/DeDRM_plugin/__pycache__
-/DeDRM_plugin/standalone/__pycache__
+__pycache__/
+DeDRM_plugin/del
+.vscode/
+/test*
+/new
+/KFX
+/_old/
