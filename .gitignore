@@ -8,15 +8,16 @@
 /DeDRM_plugin/__pycache__
 /DeDRM_plugin/standalone/__pycache__
 
+/test*
 /tests
-/DeDRM_plugin/del
 
-/test2.py
 /.vscode
 /new
 /KFX
+/_old
 
 # ignore python temp files
+*.zip
 *.pyc
 *.pyo
 *.pyd
